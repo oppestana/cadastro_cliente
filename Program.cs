@@ -1,19 +1,17 @@
-using cadastro_cliente.Data;
+using cadastro_clientes.Data;
+using cadastro_clientes.Repositories;
+using cadastro_clientes.Services;
 
-WebApplicationBuilder builder =
-    WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-// Habilita o uso de Controllers.
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<ConexaoBanco>();
+builder.Services.AddScoped<ClientesRepository>();
+builder.Services.AddScoped<ClientesService>();
 
-// Registra a classe de conexão para que o ASP.NET Core
-// possa fornecê-la ao ConexaoController.
-builder.Services.AddSingleton<ConexaoBanco>();
+var app = builder.Build();
 
-WebApplication app = builder.Build();
-
-// Disponibiliza as rotas declaradas nos Controllers.
 app.MapControllers();
 
-// Inicia a aplicação.
 app.Run();
